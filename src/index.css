@@ -1,0 +1,100 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 3%;
+    --foreground: 0 0% 88%;
+
+    --card: 0 0% 6%;
+    --card-foreground: 0 0% 88%;
+
+    --popover: 0 0% 7%;
+    --popover-foreground: 0 0% 88%;
+
+    --primary: 43 72% 52%;
+    --primary-foreground: 0 0% 3%;
+
+    --secondary: 0 0% 9%;
+    --secondary-foreground: 0 0% 70%;
+
+    --muted: 0 0% 11%;
+    --muted-foreground: 0 0% 45%;
+
+    --accent: 43 20% 12%;
+    --accent-foreground: 43 50% 60%;
+
+    --destructive: 0 62% 50%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 43 10% 14%;
+    --input: 0 0% 10%;
+    --ring: 43 72% 52%;
+
+    --radius: 0.75rem;
+
+    --gold: 43 72% 52%;
+    --gold-light: 43 80% 65%;
+    --gold-dark: 43 60% 35%;
+    --gold-muted: 43 20% 18%;
+
+    --sidebar-background: 0 0% 4%;
+    --sidebar-foreground: 0 0% 88%;
+    --sidebar-primary: 43 72% 52%;
+    --sidebar-primary-foreground: 0 0% 3%;
+    --sidebar-accent: 0 0% 9%;
+    --sidebar-accent-foreground: 0 0% 88%;
+    --sidebar-border: 43 10% 14%;
+    --sidebar-ring: 43 72% 52%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-body antialiased;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  ::-webkit-scrollbar {
+    display: none;
+  }
+  body {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
+@layer utilities {
+  .gold-gradient {
+    background: linear-gradient(135deg, hsl(43 72% 52%), hsl(43 80% 62%));
+  }
+  .gold-text {
+    background: linear-gradient(135deg, hsl(43 72% 52%), hsl(43 80% 65%));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .gold-border {
+    border-color: hsl(43 72% 52% / 0.2);
+  }
+  .gold-glow {
+    box-shadow: 0 0 20px hsl(43 72% 52% / 0.08);
+  }
+  .glass-card {
+    background: hsl(0 0% 6% / 0.9);
+    backdrop-filter: blur(20px);
+    border: 1px solid hsl(43 10% 14%);
+  }
+  .luxury-card {
+    background: hsl(0 0% 6%);
+    border: 1px solid hsl(43 72% 52% / 0.12);
+  }
+}
