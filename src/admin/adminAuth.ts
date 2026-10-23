@@ -35,13 +35,12 @@ const ACCOUNTS_KEY = "smartdoor_admin_accounts_v1";
 const SESSION_KEY = "smartdoor_admin_session_v1";
 const LOGS_KEY = "smartdoor_admin_login_logs_v1";
 const TOKEN_KEY = "smartdoor_admin_token_v1";
+const DEFAULT_API_URL = "https://smartdoor-10-09-26.onrender.com";
+
+// Backend manzili import.meta.env.VITE_API_URL dan olinadi;
+// agar u sozlanmagan bo'lsa Render'dagi standart URL ishlatiladi.
 const API_BASE =
-  import.meta.env.VITE_API_BASE_URL ||
-  (typeof window !== "undefined" && window.location
-    ? window.location.port === "8080" || window.location.port === "5173" || window.location.port === "4173"
-      ? ""  // Use Vite proxy in development
-      : window.location.origin
-    : "");
+  ((import.meta.env.VITE_API_URL as string | undefined) || DEFAULT_API_URL).replace(/\/+$/, "");
 
 export function getApiBaseUrl() {
   return API_BASE;
