@@ -686,6 +686,22 @@
       "ip": "::1",
       "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36",
       "at": "2026-09-04T03:50:07.645Z"
+    },
+    {
+      "id": "1793238371897",
+      "username": "superadmin",
+      "role": "super_admin",
+      "ip": "::1",
+      "userAgent": "node",
+      "at": "2026-10-29T01:46:11.897Z"
+    },
+    {
+      "id": "1793238372041",
+      "username": "superadmin",
+      "role": "super_admin",
+      "ip": "::1",
+      "userAgent": "node",
+      "at": "2026-10-29T01:46:12.041Z"
     }
   ],
   "adminGroups": {
@@ -839,5 +855,127 @@
       "groupId": "1784130661883"
     }
   ],
-  "products": []
+  "products": [
+    {
+      "id": "1",
+      "name": "Milano Premium",
+      "description": "Klassik uslubdagi premium eshik. Yuqori sifatli MDF materialdan tayyorlangan.",
+      "basePrice": 1200000,
+      "images": {
+        "default": "",
+        "shtapik": "",
+        "noshtapik": ""
+      },
+      "colors": [
+        {
+          "name": "Qo'ng'ir",
+          "hex": "#5C3A1E",
+          "key": "brown"
+        },
+        {
+          "name": "Oq",
+          "hex": "#F5F5F0",
+          "key": "white"
+        },
+        {
+          "name": "Kulrang",
+          "hex": "#8A8A8A",
+          "key": "gray"
+        },
+        {
+          "name": "Qora yong'oq",
+          "hex": "#3B2314",
+          "key": "walnut"
+        }
+      ],
+      "groupId": "super_admin_private"
+    },
+    {
+      "id": "2",
+      "name": "Europa Classic",
+      "description": "Zamonaviy Yevropa dizaynidagi oq rangli eshik. Shisha panelli.",
+      "basePrice": 1500000,
+      "images": {
+        "default": "",
+        "shtapik": "",
+        "noshtapik": ""
+      },
+      "colors": [
+        {
+          "name": "Oq",
+          "hex": "#F5F5F0",
+          "key": "white"
+        },
+        {
+          "name": "Krem",
+          "hex": "#F5E6CC",
+          "key": "cream"
+        },
+        {
+          "name": "Kulrang",
+          "hex": "#8A8A8A",
+          "key": "gray"
+        }
+      ],
+      "groupId": "super_admin_private"
+    },
+    {
+      "id": "3",
+      "name": "Royal Grand",
+      "description": "Hashamatli klassik dizayn. Naqshli shtapikli premium eshik.",
+      "basePrice": 1800000,
+      "images": {
+        "default": "",
+        "shtapik": "",
+        "noshtapik": ""
+      },
+      "colors": [
+        {
+          "name": "Qo'ng'ir",
+          "hex": "#5C3A1E",
+          "key": "brown"
+        },
+        {
+          "name": "Qora yong'oq",
+          "hex": "#3B2314",
+          "key": "walnut"
+        },
+        {
+          "name": "Mahogany",
+          "hex": "#4E2728",
+          "key": "mahogany"
+        }
+      ],
+      "groupId": "super_admin_private"
+    },
+    {
+      "id": "4",
+      "name": "Modern Lite",
+      "description": "Zamonaviy minimalist dizayn. Shisha qo'yilgan engil eshik.",
+      "basePrice": 1350000,
+      "images": {
+        "default": "",
+        "shtapik": "",
+        "noshtapik": ""
+      },
+      "colors": [
+        {
+          "name": "Kulrang",
+          "hex": "#8A8A8A",
+          "key": "gray"
+        },
+        {
+          "name": "Oq",
+          "hex": "#F5F5F0",
+          "key": "white"
+        },
+        {
+          "name": "Antrasit",
+          "hex": "#3C3C3C",
+          "key": "anthracite"
+        }
+      ],
+      "groupId": "super_admin_private"
+    }
+  ]
 }

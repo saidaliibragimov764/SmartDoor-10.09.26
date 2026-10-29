@@ -296,8 +296,27 @@ function readStore() {
   if (!store.company.logoDataUrl) store.company.logoDataUrl = "";
   if (!store.chat) store.chat = [];
   if (!store.products) store.products = [];
-  
+
   let changed = false;
+  // Seed products when the store has none. Priority:
+  // 1) SEED_PRODUCTS_JSON env var (Render-safe, survives redeploys),
+  // 2) committed server/data/store.json content (already in `store` above),
+  // 3) built-in mockProducts as a last resort so the public catalog is never empty.
+  if (store.products.length === 0) {
+    let seeded = null;
+    const envSeed = String(process.env.SEED_PRODUCTS_JSON || "").trim();
+    if (envSeed) {
+      try {
+        const parsed = JSON.parse(envSeed);
+        if (Array.isArray(parsed) && parsed.length > 0) seeded = parsed;
+      } catch {
+        console.warn("SEED_PRODUCTS_JSON parse xato - mockProducts'ga o'tildi");
+      }
+    }
+    if (!seeded) seeded = mockProducts.map((p) => ({ ...p, groupId: "super_admin_private" }));
+    store.products = seeded;
+    changed = true;
+  }
   if (!store.orders) {
     store.orders = seedMockOrders(store.adminGroups.groups);
     changed = true;
