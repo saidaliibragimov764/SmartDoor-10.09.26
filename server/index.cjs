@@ -19,25 +19,55 @@ const INDEX_HTML = path.join(DIST_DIR, "index.html");
 const GROUPS_LS_KEY = "smartdoor_admin_groups";
 
 app.set("trust proxy", 1);
-app.use(helmet());
 const shouldServeWeb = fs.existsSync(INDEX_HTML);
-app.use(cors(shouldServeWeb ? { origin: true, credentials: true } : {
-  origin: (origin, cb) => {
-    // allow same-origin / curl / server-to-server requests
-    if (!origin) return cb(null, true);
-    // dev: allow local frontend on LAN or localhost
-    const allowed = [
-      /^http:\/\/localhost:8080$/,
-      /^http:\/\/127\.0\.0\.1:8080$/,
-      /^http:\/\/192\.168\.\d+\.\d+:8080$/,
-      /^http:\/\/10\.\d+\.\d+\.\d+:8080$/,
-      /^http:\/\/172\.(1[6-9]|2\d|3[0-1])\.\d+\.\d+:8080$/,
-    ];
-    const ok = allowed.some((re) => re.test(origin));
-    return cb(ok ? null : new Error("Not allowed by CORS"), ok);
-  },
-  credentials: true,
-}));
+
+// --- CORS configuration ---
+// Ruxsat etilgan originlar: production Vercel frontend + dev (localhost/LAN) + backend'ning o'zi.
+// Qo'shimcha originlar CORS_ALLOWED_ORIGINS env o'zgaruvchisi orqali (vergul bilan ajratilgan) beriladi.
+const vercelProjectOrigin = "https://smart-door-10-09-26.vercel.app";
+const renderServiceOrigin = "https://smartdoor-10-09-26.onrender.com";
+const extraAllowedOrigins = String(process.env.CORS_ALLOWED_ORIGINS || "")
+  .split(",")
+  .map((s) => s.trim())
+  .filter(Boolean);
+const allowedDevOrigins = [
+  /^http:\/\/localhost:8080$/,
+  /^http:\/\/127\.0\.0\.1:8080$/,
+  /^http:\/\/192\.168\.\d+\.\d+:8080$/,
+  /^http:\/\/10\.\d+\.\d+\.\d+:8080$/,
+  /^http:\/\/172\.(1[6-9]|2\d|3[0-1])\.\d+\.\d+:8080$/,
+];
+function isAllowedOrigin(origin) {
+  if (!origin) return true; // same-origin / curl / server-to-server (no Origin header)
+  if (origin === vercelProjectOrigin || origin === renderServiceOrigin) return true;
+  if (extraAllowedOrigins.includes(origin)) return true;
+  // har qanday ushbu loyiha Vercel preview domeniga ruxsat: <project>-<hash>.vercel.app
+  if (/^https:\/\/[a-z0-9-]+\.vercel\.app$/.test(origin)) return true;
+  if (allowedDevOrigins.some((re) => re.test(origin))) return true;
+  return false;
+}
+// Eslatma: `origin` callback'i xato (Error) qaytarsa, cors kutubxonasi javobga
+// Access-Control-Allow-Origin sarlavhasini umon qo'shmaydi va Express 500 qaytaradi.
+// Shuning uchun bu yerda hech qachon Error qaytarmaymiz: ruxsat etilmagan origin uchun
+// shunchaki CORS sarlavhasisiz oddiy 403 JSON javob beramiz (preflight ham shu yo'ldan o'tadi).
+app.use(
+  cors({
+    origin: (origin, cb) => cb(null, isAllowedOrigin(origin)),
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    maxAge: 86400,
+  })
+);
+app.use((req, res, next) => {
+  const origin = req.headers.origin;
+  if (origin && !isAllowedOrigin(origin)) {
+    return res.status(403).json({ message: "CORS: origin ruxsat etilmagan" });
+  }
+  next();
+});
+
+app.use(helmet({ crossOriginResourcePolicy: { policy: "cross-origin" } }));
 app.use(express.json({ limit: "4mb" }));
 
 const authLimiter = rateLimit({

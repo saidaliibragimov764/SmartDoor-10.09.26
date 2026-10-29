@@ -1,8 +1,10 @@
 import "@testing-library/jest-dom";
 
-Object.defineProperty(window, "matchMedia", {
-  writable: true,
-  value: (query: string) => ({
+// jsdom muhitida window mavjud; node muhitidagi testlar uchun himoya qilamiz
+if (typeof window !== "undefined") {
+  Object.defineProperty(window, "matchMedia", {
+    writable: true,
+    value: (query: string) => ({
     matches: false,
     media: query,
     onchange: null,
@@ -12,4 +14,5 @@ Object.defineProperty(window, "matchMedia", {
     removeEventListener: () => {},
     dispatchEvent: () => {},
   }),
-});
+  });
+}
